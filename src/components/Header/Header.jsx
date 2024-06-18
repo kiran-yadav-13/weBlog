@@ -66,7 +66,7 @@ function Header() {
   
 
   return (
-    <header className='py-2 shadow bg-gray-800 top-0  border-b sticky  text-white shadow-xl shadow-gray-400 '>
+    <header className='py-2 shadow bg-gray-800 bg-opacity-95 top-0  border-b sticky  text-white shadow-xl shadow-gray-400 '>
       <Container>
         <nav className='flex '>
 

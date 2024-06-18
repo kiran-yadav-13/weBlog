@@ -61,9 +61,9 @@ import { MdDeleteForever } from "react-icons/md";
                 </div>
                 <div className="w-full p-4 text-gray-500">
                 <div className="md:mb-6  text-gray-700  ">
-                    <h1 className="font-semibold font-sans tracking-wide text-[min(6vw,1.8rem)] md:leading-10">{post.title}</h1>
+                    <h1 className="font-semibold font-sans tracking-wide text-[min(6vw,1.8rem)] md:leading-10 ">{post.title}</h1>
                 </div>
-                <div className="browser-css md:p-4 font-sans text-xl text-[min(3vw,1.5rem)] md:leading-10">
+                <div className="browser-css md:p-4 font-sans text-xl md:text-[min(3vw,1rem) leading-10">
                     {parse(post.content)}
                     </div>
                </div>

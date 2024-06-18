@@ -16,7 +16,7 @@ function PostCard({$id, title, featuredImage,content}) {
             <h2
             className='px-4 text-xl font-semibold text-gray-700 mb-2 text-[min(5vw,1.3rem)]'
             >{title}</h2>
-            <div className='text-sm px-4 text-wrap truncate text-[min(3vw,1rem)] '>
+            <div className='text-sm px-4 text-wrap text-clip text-[min(3vw,1rem)] '>
            { parse(content).slice(0,2)}
            <span className='text-blue-100'>read more......</span>
             </div>

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { Container, PostCard } from '../components'
 import appwriteService from "../appwrite/config";
-import parse from "html-react-parser";
+import { ProductShimmer } from '../components/Shimmer';
+import Post from './Post';
 
 function AllPosts() {
     const [posts, setPosts] = useState([])
@@ -22,13 +23,13 @@ function AllPosts() {
     }, [])
     
     
-    console.log()
-  return (
+//   return posts.length===0 ? <ProductShimmer /> : (
+return(
     <div className='w-full py-8 '>
         <div className='flex  mb-4 justify-center "'>
         <input 
         type='text'
-        className="border border-y-1 border-gray-400 border-r-0 rounded-md rounded-r-none py-2 w-2/5 md:px-2 "
+        className="border border-y-1 border-gray-400 border-r-0 rounded-md rounded-r-none sm:py-1 md:py-2 w-2/5 md:px-2 "
         placeholder='Search the Blogs'
         value={searchText}
         onChange={(e) => {
@@ -45,7 +46,7 @@ function AllPosts() {
                 filteredSearch.length? setFilteredPost(filteredSearch):null
             }}
          >
-            <span className=' bg-cyan-500 py-3 px-[1rem] rounded-md rounded-l-none text-white text-[2vw, 0.7rem)]'>
+            <span className=' bg-cyan-500 py-[0.2rem] md:py-3  px-[1rem] rounded-md rounded-l-none text-white text-[2vw, 0.7rem)] hover:bg-cyan-400'>
                 Search
             </span>
          </button>
