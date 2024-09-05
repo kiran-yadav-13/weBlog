@@ -1,12 +1,12 @@
-import WeBlogLoading from "../assets/weBlogLoading.mp4"
+// import WeBlogLoading from "../assets/weBlogLoading.mp4"
 function Loading(){
     return(
         <div className="w-min-full h-min-full flex">
         <div className="flex flex-auto justify-center items-center">
             <div className="flex justify-center">
-            <video  src={WeBlogLoading} autoplay="{true}" loop muted 
+            {/* <video  src={WeBlogLoading} autoplay="{true}" loop muted 
             className="absolute z-10 w-auto  
-            w-[20rem] h-[20rem]  "/>
+            w-[20rem] h-[20rem]  "/> */}
             </div>
             </div>
          </div>

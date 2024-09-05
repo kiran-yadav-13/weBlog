@@ -43,7 +43,7 @@ function NavLinks({className}){
       <div key={item.name}  className={` flex items-center justify-center ${className} `}>
         <button
         onClick={() => navigate(item.slug)}
-        className={` inline-block px-6 py-1 duration-200 hover:bg-cyan-500 hover:text-black rounded-xl text-[min(3vw,1.1rem)] `}
+        className={` inline-block px-6 duration-200 hover:bg-cyan-500 hover:text-black rounded-xl text-[min(3vw,1.1rem)] `}
         >{item.name}</button>
       </div> 
     ) : null
@@ -66,7 +66,7 @@ function Header() {
   
 
   return (
-    <header className='py-2 shadow bg-gray-800 bg-opacity-95 top-0  border-b sticky  text-white shadow-xl shadow-gray-400 '>
+    <header className='py-1 shadow bg-gray-800 bg-opacity-95 top-0  border-b sticky  text-white shadow-xl shadow-gray-400 '>
       <Container>
         <nav className='flex '>
 
@@ -74,7 +74,7 @@ function Header() {
             <Link to='/'>
               <Logo width='70px'   />
               </Link>
-              <p className='text-2xl text-gray-100 font-sans text-[min(4.1vw,1.5rem)] '> .weBlog</p>
+              <p className='text-2xl text-gray-100 font-sans text-[min(4.1vw,1.5rem)] '></p>
           </div>
 
           <div className='hidden md:flex  ml-auto items-center justify-between'>
