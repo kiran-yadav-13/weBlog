@@ -11,7 +11,7 @@ function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, watch} = useForm()
 
     const create = async(data) => {
         setError("")
@@ -28,8 +28,8 @@ function Signup() {
     }
 
   return (
-    <div className="flex items-center justify-center text-[min(3vw,1.2rem)]">
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 m-2`}>
+    <div className="flex items-center justify-center">
+        <div className={`mx-auto w-full max-w-lg bg-white rounded-xl p-10 border border-aurora-border shadow-soft-lg m-2`}>
             <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                     <div className='flex items-center text-center'>
@@ -39,14 +39,9 @@ function Signup() {
                     </span>
                 </div>
                 <h2 className="text-center text-2xl font-bold leading-tight text-[min(3vw,1.2rem)]">Sign up to create account</h2>
-                <p className="mt-2 text-center text-base text-black/60">
-                    Already have an account?&nbsp;
-                    <Link
-                        to="/login"
-                        className="font-medium text-primary transition-all duration-200 hover:underline"
-                    >
-                        Sign In
-                    </Link>
+                <h2 className="text-center font-serif text-2xl font-semibold">Create Your Account</h2>
+                <p className="mt-2 text-center text-base text-aurora-muted">
+                    Join our growing community of writers.
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
@@ -75,8 +70,19 @@ function Signup() {
                         label="Password: "
                         type="password"
                         placeholder="Enter your password"
+                        showToggle={true}
                         {...register("password", {
                             required: true,})}
+                        />
+                        <Input
+                        label="Confirm Password: "
+                        type="password"
+                        placeholder="Confirm your password"
+                        showToggle={true}
+                        {...register("confirmPassword", {
+                            required: true,
+                            validate: (val) => val === watch('password') || "Passwords do not match",
+                        })}
                         />
                         <Button type="submit" className="w-full">
                             Create Account

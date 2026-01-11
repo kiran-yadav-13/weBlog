@@ -1,99 +1,125 @@
 import React, { useState } from 'react'
-import {Container, Logo, LogoutBtn} from '../index'
-import { Link } from 'react-router-dom'
-import {useSelector} from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { IoMenu } from "react-icons/io5";
+import { Container, LogoutBtn } from '../index'
+import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { IoMenu, IoClose, IoMoon, IoSunny, IoPersonCircle } from 'react-icons/io5'
+import { motion, AnimatePresence } from 'framer-motion'
 
-function NavLinks({className}){
+// Auth-based nav
+function NavLinks({ onNavigate, vertical = false }) {
   const authStatus = useSelector((state) => state.auth.status)
-  const navigate = useNavigate()
-  const navItems = [
-    {
-      name: 'Home',
-      slug: "/",
-      active: true
-    }, 
-    {
-      name: "Login",
-      slug: "/login",
-      active: !authStatus,
-  },
-  {
-      name: "Signup",
-      slug: "/signup",
-      active: !authStatus,
-  },
-  {
-      name: "All Posts",
-      slug: "/all-posts",
-      active: authStatus,
-  },
-  {
-      name: "Add Post",
-      slug: "/add-post",
-      active: authStatus,
-  },
+
+  const items = [
+    { name: 'Home', to: '/', show: true },
+    { name: 'All Posts', to: '/all-posts', show: true },
+    { name: 'Add Post', to: '/add-post', show: authStatus },
+    { name: 'Login', to: '/login', show: !authStatus },
+    { name: 'Sign Up', to: '/signup', show: !authStatus },
   ]
 
-  return(
-   <>
-    {navItems.map((item) => 
-    item.active ? (
-      <div key={item.name}  className={` flex items-center justify-center ${className} `}>
-        <button
-        onClick={() => navigate(item.slug)}
-        className={` inline-block px-6 duration-200 hover:bg-cyan-500 hover:text-black rounded-xl text-[min(3vw,1.1rem)] `}
-        >{item.name}</button>
-      </div> 
-    ) : null
-    )}
-    {authStatus && (
-      <div className={`text-[min(2.5vw,1.1rem)]  flex items-center justify-center  ${className}`}>
-        <LogoutBtn  />
-      </div>
-    )}
-</>
+  if (authStatus) items.push({ name: 'Profile', to: '/profile', show: true, icon: IoPersonCircle })
+
+  return (
+    <ul className={`flex ${vertical ? 'flex-col' : 'flex-row'} items-center gap-4`}>
+      {items.map((item) =>
+        item.show ? (
+          <li key={item.name}>
+            <NavLink
+              to={item.to}
+              onClick={onNavigate}
+              className={({ isActive }) =>
+                `px-4 py-3 rounded-md text-base font-medium transition-all focus:outline-none ${
+                  isActive ? 'text-[#FF7A7A] underline' : 'text-black hover:text-[#FF7A7A]'
+                }`
+              }
+            >
+              {item.icon ? (
+                <span className='inline-flex items-center gap-2'><item.icon className='text-lg'/> {item.name}</span>
+              ) : (
+                item.name
+              )}
+            </NavLink>
+          </li>
+        ) : null
+      )}
+
+      {authStatus && (
+        <li>
+          <LogoutBtn />
+        </li>
+      )}
+    </ul>
   )
 }
 
-function Header() {
-  
-  const [isOpen, setIsOpen]=useState(false)
-  const toggleNavbar =() =>{
-    setIsOpen(!isOpen)
-  }
-  
+export default function Header() {
+  const [open, setOpen] = useState(false)
+  const [dark, setDark] = useState(() => !!localStorage.getItem('weblog-dark'))
+
+  React.useEffect(() => {
+    if (dark) document.documentElement.classList.add('dark-mode')
+    else document.documentElement.classList.remove('dark-mode')
+    localStorage.setItem('weblog-dark', dark ? '1' : '')
+  }, [dark])
 
   return (
-    <header className='py-1 shadow bg-gray-800 bg-opacity-95 top-0  border-b sticky  text-white shadow-xl shadow-gray-400 '>
-      <Container>
-        <nav className='flex '>
+    <header className='sticky top-0 z-50'>
+      <div className='header-gradient rounded-b-2xl shadow-md text-black text-[min(3.6vw,1.25rem)] '>
+        <Container>
+          <div className='flex items-center justify-between py-4 md:py-6'>
+            {/* Logo */}
+            <NavLink to='/' className='weblog-logo'>
+              <div className='weblog-logo text-[1.25rem] md:text-[1.5rem]'>WEBLOG</div>
+            </NavLink>
 
-          <div className='mr-4 flex items-center '>
-            <Link to='/'>
-              <Logo width='70px'   />
-              </Link>
-              <p className='text-2xl text-gray-100 font-sans text-[min(4.1vw,1.5rem)] '></p>
-          </div>
+            {/* Desktop Nav */}
+            <nav className='hidden md:flex'>
+              <NavLinks onNavigate={() => setOpen(false)} />
+            </nav>
 
-          <div className='hidden md:flex  ml-auto items-center justify-between'>
-              <NavLinks />
-          </div>
-          <div className=' md:hidden  flex ml-auto  items-center '>
-            <button className='text-[1.5rem]' onClick={toggleNavbar}><IoMenu /></button>
-          </div>
+            <div className='hidden md:flex items-center gap-3'>
+              <button
+                aria-label='Toggle dark mode'
+                onClick={() => setDark((d) => !d)}
+                className='p-2 rounded-md text-black hover:text-[#FF7A7A]'
+              >
+                {dark ? <IoSunny /> : <IoMoon />}
+              </button>
+            </div>
 
-        </nav>
-        {isOpen ? (
-          <div className='flex md:hidden flex-col justify-center items-center basis-full '>
-            <NavLinks className={"w-full border-gray-200 border-b-[0.002rem]"}/>
+            {/* Mobile Button */}
+            <button
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              className='md:hidden p-2 text-2xl'
+              onClick={() => setOpen((s) => !s)}
+            >
+              {open ? <IoClose /> : <IoMenu />}
+            </button>
           </div>
-        ):null}
-        
         </Container>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className='md:hidden border-t border-white/30 overflow-hidden'
+            >
+              <Container>
+                <div className='py-3'>
+                  <NavLinks
+                    onNavigate={() => setOpen(false)}
+                    vertical={true}
+                  />
+                </div>
+              </Container>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </header>
   )
 }
-
-export default Header

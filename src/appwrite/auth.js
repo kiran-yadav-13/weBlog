@@ -17,31 +17,40 @@ export class AuthService {
 
     async createAccount({email, password, name}) {
         try {
+            console.log('REQUEST: createAccount', { email, name })
             const userAccount = await this.account.create(ID.unique(), email, password, name);
+            console.log('RESPONSE: createAccount', userAccount)
             if (userAccount) {
-                // call another method
                 return this.login({email, password});
             } else {
-               return  userAccount;
+               return userAccount;
             }
         } catch (error) {
+            console.error('ERROR: createAccount', error)
             throw error;
         }
     }
 
     async login({email, password}) {
         try {
-            return await this.account.createEmailSession(email, password);
+            console.log('REQUEST: login', { email })
+            const res = await this.account.createEmailSession(email, password);
+            console.log('RESPONSE: login', res)
+            return res
         } catch (error) {
+            console.error('ERROR: login', error)
             throw error;
         }
     }
 
     async getCurrentUser() {
         try {
-            return await this.account.get();
+            console.log('REQUEST: getCurrentUser')
+            const res = await this.account.get();
+            console.log('RESPONSE: getCurrentUser', res)
+            return res
         } catch (error) {
-            console.log("Appwrite serive :: getCurrentUser :: error", error);
+            console.error('ERROR: getCurrentUser', error)
         }
 
         return null;
@@ -50,9 +59,13 @@ export class AuthService {
     async logout() {
 
         try {
-            await this.account.deleteSessions();
+            console.log('REQUEST: logout')
+            const res = await this.account.deleteSessions();
+            console.log('RESPONSE: logout', res)
+            return res
         } catch (error) {
-            console.log("Appwrite serive :: logout :: error", error);
+            console.error('ERROR: logout', error)
+            throw error
         }
     }
 }

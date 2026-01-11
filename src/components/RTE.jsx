@@ -5,8 +5,8 @@ import conf from "../conf/conf.js"
 
 export default function RTE({name, control, label, defaultValue =""}) {
   return (
-    <div className='w-full'> 
-    {label && <label className='inline-block mb-1 pl-1'>{label}</label>}
+    <div className='w-full text-aurora-text'> 
+    {label && <label className='inline-block mb-1 pl-1 text-aurora-text'>{label}</label>}
 
     <Controller
     name={name || "content"}

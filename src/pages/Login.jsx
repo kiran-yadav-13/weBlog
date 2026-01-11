@@ -1,9 +1,10 @@
 import React from 'react'
-import { Login as loginComponent } from '../components'
+import { Login as LoginComponent } from '../components'
+
 function Login() {
   return (
-    <div className='py-8'>
-        <loginComponent />
+    <div className='page-bg min-h-screen flex items-center justify-center py-8'>
+      <LoginComponent />
     </div>
   )
 }

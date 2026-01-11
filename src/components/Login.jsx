@@ -27,10 +27,8 @@ function Login() {
     }
 
   return (
-    <div
-    className='flex w-full items-center justify-center  text-[min(3vw,1.2rem)] '
-    >
-        <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 m-4`}>
+    <div className='flex w-full items-center justify-center '>
+        <div className={`mx-auto w-full max-w-lg bg-white auth-card rounded-xl p-10 border border-aurora-border shadow-soft-lg m-4`}>
         <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                     <div className='flex items-center text-center'>
@@ -39,15 +37,9 @@ function Login() {
     </div>
                     </span>
         </div>
-        <h2 className="text-center  font-bold leading-tight">Sign in to your account</h2>
-        <p className="mt-2 text-center text-base text-black/60 text-[min(3vw,1.2rem)]">
-                    Don&apos;t have any account?&nbsp;
-                    <Link
-                        to="/signup"
-                        className="font-medium text-primary transition-all duration-200 hover:underline"
-                    >
-                        Sign Up
-                    </Link>
+        <h2 className="text-center font-serif text-2xl font-semibold">Welcome Back</h2>
+        <p className="mt-2 text-center text-base text-aurora-muted">
+                    Sign in to continue your writing journey.
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(login)} className='mt-8'>
@@ -64,18 +56,19 @@ function Login() {
                     }
                 })}
                 />
-                <Input
-                label="Password: "
-                type="password"
-                placeholder="Enter your password"
-                {...register("password", {
-                    required: true,
-                })}
-                />
+                                <Input
+                                    label="Password: "
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    showToggle={true}
+                                    {...register('password', {
+                                        required: true,
+                                    })}
+                                />
                 <Button
                 type="submit"
                 className="w-full"
-                >Sign in</Button>
+                >Sign In</Button>
             </div>
         </form>
         </div>

@@ -1,3 +1,93 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+	--color-bg: #F6EDE3;
+	--color-surface: #FFFFFF;
+	--color-accent: #FF7A7A;
+	--color-text: #2D2A32;
+	--color-muted: #7A757A;
+}
+
+/* Dark mode variables */
+.dark-mode {
+  --color-bg: #2b2b2b; /* dark gray */
+  --color-surface: #838588;
+  --color-accent: #FF7A7A;
+  --color-text: #E6EEF3;
+  --color-muted: #d6d8dd;
+}
+
+/* Surface background helper to use theme surface color */
+.surface-bg { background-color: var(--color-surface); }
+
+/* Ensure content in prose remains sharp in dark mode */
+.prose { color: var(--color-text); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+@layer base{
+	html, body, #root{
+		height: 100%;
+	}
+	body{
+		font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+		color: var(--color-text);
+		background-color: var(--color-bg);
+	}
+	h1{font-family: 'Playfair Display', serif; font-size: 3rem;}
+	h2{font-family: 'Playfair Display', serif; font-size: 2.2rem;}
+	h3{font-family: 'Playfair Display', serif; font-size: 1.6rem;}
+	p, label, input, button { font-family: Inter, ui-sans-serif; }
+}
+
+	/* Theme helpers */
+	.header-gradient{
+		background: linear-gradient(90deg, #F9B6B6, #F7C1C1);
+	}
+	.footer-gradient{
+		background: linear-gradient(90deg, #F9B6B6, #F7C1C1);
+	}
+	.weblog-logo{ color: #000; font-weight:700; font-family: 'Playfair Display', serif; font-size:1.125rem }
+	.btn-gradient{ background: linear-gradient(90deg,#FF7A7A,#FFD1C1); color: #fff }
+	.card-pink-glow{ background: var(--color-surface); box-shadow: 0 12px 30px rgba(45,42,50,0.08), 0 6px 12px rgba(255,122,122,0.06); border-radius: 0.75rem }
+
+	/* Input surface that follows theme surface + text color */
+	.input-surface{ background-color: var(--color-surface); color: var(--color-text); }
+	.input-surface::placeholder{ color: var(--color-muted); }
+
+	/* Keep inputs inside auth cards white and readable even when site is in dark-mode */
+	.auth-card .input-surface{
+		background-color: #ffffff;
+		color: #111827;
+		border-color: #e5e7eb;
+	}
+	.auth-card .input-surface::placeholder{ color: #9CA3AF; }
+
+	/* Gradient outline on hover using background-clip trick */
+	.card-pink-glow{ position: relative; transition: all 200ms ease; }
+	.card-pink-glow:hover{
+		box-shadow: 0 16px 40px rgba(255,122,122,0.08), 0 8px 20px rgba(45,42,50,0.06);
+		border-radius: 0.75rem;
+		border: 2px solid transparent;
+		background-image: linear-gradient(var(--color-surface), var(--color-surface)), linear-gradient(90deg,#F9B6B6,#F7C1C1);
+		background-origin: padding-box, border-box;
+		background-clip: padding-box, border-box;
+	}
+	.page-bg{ background-color: var(--color-bg) }
+	.text-aurora-text{ color: var(--color-text) }
+	.text-aurora-muted{ color: var(--color-muted) }
+
+	/* small helper when we need black text enforced */
+	.text-black-strong{ color: #000 !important }
+
+	/* Simple prose styles for post content formatting */
+	.prose {
+		color: var(--color-text);
+	}
+	.prose p { margin: 0 0 1rem 0; line-height: 1.8; }
+	.prose img { max-width: 100%; border-radius: 0.5rem; }
+	.prose h2, .prose h3, .prose h4 { margin-top: 1.25rem; margin-bottom: 0.75rem; }
+	.browser-css { }
+
+	/* shimmer strip styling fallback */
+	.shimmer-strip { background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,220,224,0.6), rgba(255,255,255,0)); height:100%; }

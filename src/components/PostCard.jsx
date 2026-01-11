@@ -1,29 +1,65 @@
-import React from 'react'
-import appwriteService from "../appwrite/config"
-import {Link} from 'react-router-dom'
-import parse from "html-react-parser"
-function PostCard({$id, title, featuredImage,content}) {
- 
-   
-  return (
-    <Link to={`/post/${$id}`}>
-        <div className=' sm:w-50 md:w-50 lg:w-96   bg-gray-100 rounded-xl px-0 pt-0 shadow-xl shadow-gray-400 hover:scale-95 transition-all duration-200 pb-2 border-white border-2'>
-            <div className='w-full  '>
-                <img src={appwriteService.getFilePreview(featuredImage)} alt={title}
-                className='rounded-xl mb-2 w-full h-[14rem] pt-0 ' />
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import appwriteService from "../appwrite/config";
 
-            </div>
-            <h2
-            className='px-4 text-xl font-semibold text-gray-700 mb-2 text-[min(5vw,1.3rem)]'
-            >{title}</h2>
-            <div className='text-sm px-4 text-wrap text-clip text-[min(3vw,1rem)] '>
-           { parse(content).slice(0,2)}
-           <span className='text-blue-100'>read more......</span>
-            </div>
+function PostCard({ $id, title, featuredImage, content }) {
+  const [imgError, setImgError] = useState(false);
+
+  const previewSrc = featuredImage
+    ? appwriteService.getFilePreview(featuredImage)
+    : null;
+
+  console.log("previewSrc", previewSrc);
+  const excerpt = content
+    ? content.replace(/<[^>]+>/g, "").trim().slice(0, 140)
+    : "";
+
+  return (
+    <Link to={`/post/${$id}`} className="block focus:outline-none">
+      <motion.article
+        className="card-pink-glow overflow-hidden border border-transparent transition-shadow duration-200 ease-out"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ y: -6 }}
+        layout
+      >
+        {previewSrc && !imgError ? (
+          <div className="w-full h-48 md:h-56 bg-gray-100 overflow-hidden">
+            <img
+              src={previewSrc}
+              alt={title || "Post image"}
+              onError={() => setImgError(true)}
+              className="w-full h-full object-cover block"
+            />
+          </div>
+        ) : (
+          <div className="w-full h-48 md:h-56 bg-gradient-to-br from-page-bg to-white flex items-center justify-center">
+            <span className="font-medium text-aurora-text px-4 text-center">
+              {title}
+            </span>
+          </div>
+        )}
+
+        <div className="p-4">
+          <h3 className="text-lg font-serif font-semibold text-aurora-text mb-2 line-clamp-2">
+            {title}
+          </h3>
+
+          <p className="text-sm text-aurora-muted mb-4 line-clamp-3">
+            {excerpt}
+            {excerpt.length >= 140 && "…"}
+          </p>
+
+          <div className="flex justify-end">
+            <button className="px-3 py-1 text-sm font-medium rounded-md btn-gradient transition-all duration-150 hover:scale-105">
+              Read More
+            </button>
+          </div>
         </div>
+      </motion.article>
     </Link>
-  )
+  );
 }
 
-
-export default PostCard
+export default PostCard;

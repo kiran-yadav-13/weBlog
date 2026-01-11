@@ -27,22 +27,32 @@ export default function PostForm({ post }) {
                 appwriteService.deleteFile(post.featuredImage);
             }
 
-            const dbPost = await appwriteService.updatePost(post.$id, {
-                ...data,
+            const payload = {
+                title: data.title,
+                content: data.content,
+                status: data.status,
                 featuredImage: file ? file.$id : undefined,
-            });
+            }
+
+            const dbPost = await appwriteService.updatePost(post.$id, payload);
 
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            const file = await appwriteService.uploadFile(data.image[0]);
+            const file = data.image && data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
             if (file) {
                 const fileId = file.$id;
-                data.featuredImage = fileId;
-                
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                const payload = {
+                    title: data.title,
+                    content: data.content,
+                    status: data.status,
+                    featuredImage: fileId,
+                    userId: userData.$id,
+                }
+
+                const dbPost = await appwriteService.createPost(payload);
                 console.log(dbPost)
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -73,7 +83,7 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap text-[min(2.9vw, 1.5rem)]">
+        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap text-[min(2.9vw, 1.5rem)] text-aurora-text">
             <div className="max-w-full md:w-2/3 px-2">
                 <Input
                     label="Title :"
